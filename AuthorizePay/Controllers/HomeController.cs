@@ -12,8 +12,11 @@ namespace AuthorizePay.Controllers
 {
     public class HomeController : Controller
     {
-        private const string ApiLoginId = "4n7K8JwF";
-        private const string TransactionKey = "87f74Jz3ReM6wFVk";
+        //private const string ApiLoginId = "4n7K8JwF";
+        //private const string TransactionKey = "87f74Jz3ReM6wFVk";
+
+        private const string ApiLoginId = "3Sc2Hz9p7c";
+        private const string TransactionKey = "66B54b4vsZ52aL8S";
 
         public ActionResult Index()
         {
