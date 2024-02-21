@@ -15,6 +15,7 @@ namespace AuthorizePay.Controllers
         //private const string ApiLoginId = "4n7K8JwF";
         //private const string TransactionKey = "87f74Jz3ReM6wFVk";
 
+        //client api id
         private const string ApiLoginId = "3Sc2Hz9p7c";
         private const string TransactionKey = "66B54b4vsZ52aL8S";
 
@@ -63,13 +64,13 @@ namespace AuthorizePay.Controllers
                 {
                     // Payment successful
                     strStatus = "01";
-                    strMessage = "Payment successful!";
+                    strMessage = response.transactionResponse.messages[0].description + "\nTransaction Id: " + response.transactionResponse.transId + ".\nAuth code: " + response.transactionResponse.authCode;
                 }
                 else
                 {
                     // Payment failed
-                    strStatus = "00";
-                    strMessage = $"Payment failed: {response?.messages?.message?[0]?.text}";
+                    strStatus = "00";                    
+                    strMessage = "Payment failed: " + (response == null ? "Invalid card details" : response.transactionResponse.errors[0].errorText);
                 }
             }
             catch (Exception ex)

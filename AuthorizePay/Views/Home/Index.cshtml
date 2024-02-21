@@ -5,12 +5,22 @@
 </head>
 <style>
     .padding {
-        padding: 5rem !important;
+        padding: 30px 5rem !important;
     }
 
     .form-control:focus {
         box-shadow: 10px 0px 0px 0px #ffffff !important;
         border-color: #4ca746;
+    }
+
+    .loader-container {
+        position: fixed;
+        padding-top: 20%;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        background: rgb(0 0 0 / 50%);
+        display: none; /* Initially hidden */
     }
 
     .loader {
@@ -20,9 +30,7 @@
         width: 40px;
         height: 40px;
         animation: spin 1s linear infinite;
-        display: none; /* Initially hidden */
         margin: 0 auto;
-        margin-top: 20px;
     }
 
     @@keyframes spin {
@@ -30,8 +38,23 @@
         100% { transform: rotate(360deg); }
     }
 
+    .result-div {
+        text-align: center;
+    }
+
+    .txtGreen{
+        color:green;
+    }
+
+    .txtRed{
+        color: red;
+    }
+
 </style>
 <body>
+    <div class="loader-container" id="loader-container">
+        <div class="loader" id="loader"></div>
+    </div>
     <div class="padding">
         <div class="row">
             <div class="container-fluid d-flex justify-content-center">
@@ -75,12 +98,14 @@
                             <div class="form-group">
                                 <input value="MAKE PAYMENT" type="button" class="btn btn-success btn-lg form-control" style="font-size: .8rem;" onclick="Pay()">
                             </div>
-                            <div class="loader" id="loader"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="result-div">
+        <p class="trans-result"></p>
     </div>
 </body>
 <script>
@@ -94,7 +119,7 @@
             alert('Please fill in all the required fields.');
             return;
         }
-        $('#loader').show();
+        $('#loader-container').show();
         var data = {
             cardNumber: cardNum,
             expirationDate: cardExp,
@@ -107,16 +132,16 @@
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
             success: function (result) {
-                $('#loader').hide();
+                $('#loader-container').hide();
                 if (result.Status == "01") {
-                    alert(result.Message);
+                    $('.trans-result').removeClass('txtRed').addClass('txtGreen').html(result.Message);
                 } else {
                     console.log(result.Message);
-                    alert("Payment failed");
+                    $('.trans-result').removeClass('txtGreen').addClass('txtRed').html(result.Message);
                 }
             },
             error: function (xhr, status, error) {
-                $('#loader').hide();
+                $('#loader-container').hide();
                 console.error(error);
             }
         });
